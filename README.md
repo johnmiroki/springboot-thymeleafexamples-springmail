@@ -1,3 +1,8 @@
+Springbootify the official Thymeleaf example of Spring Mail 
+=================================
+
+Original README see below:
+
 Thymeleaf 3 examples: Spring Mail
 =================================
 
