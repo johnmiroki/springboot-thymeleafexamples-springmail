@@ -8,3 +8,4 @@ bin/
 nb-configuration.xml
 src/main/webapp/META-INF
 src/main/resources/configuration.properties
+src/main/resources/application-dev.properties
