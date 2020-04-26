@@ -37,7 +37,7 @@ public class MainController {
     private EmailService emailService;
 
     /* Home page. */
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/index", "index.html"}, method = RequestMethod.GET)
     public String index() {
         return "index";
     }
