@@ -19,17 +19,10 @@
  */
 package thymeleafexamples.springmail.business.service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
@@ -40,7 +33,15 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import thymeleafexamples.springmail.business.SpringMailConfig;
+import thymeleafexamples.springmail.config.SpringMailConfig;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 @Service
 public class EmailService {
@@ -65,15 +66,19 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     @Autowired
+    @Qualifier("emailTemplateEngine")
     private TemplateEngine htmlTemplateEngine;
 
     @Autowired
+    @Qualifier("emailTemplateEngine")
     private TemplateEngine textTemplateEngine;
 
     @Autowired
+    @Qualifier("emailTemplateEngine")
     private TemplateEngine stringTemplateEngine;
 
-
+    @Autowired
+    private MailProperties mailProperties;
 
     /* 
      * Send plain TEXT mail 
@@ -92,7 +97,7 @@ public class EmailService {
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
         message.setSubject("Example plain TEXT email");
-        message.setFrom("thymeleaf@example.com");
+        message.setFrom(mailProperties.getUsername());
         message.setTo(recipientEmail);
 
         // Create the plain TEXT body using Thymeleaf
@@ -121,7 +126,7 @@ public class EmailService {
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
         message.setSubject("Example HTML email (simple)");
-        message.setFrom("thymeleaf@example.com");
+        message.setFrom(mailProperties.getUsername());
         message.setTo(recipientEmail);
 
         // Create the HTML body using Thymeleaf
@@ -152,7 +157,7 @@ public class EmailService {
         final MimeMessageHelper message
             = new MimeMessageHelper(mimeMessage, true /* multipart */, "UTF-8");
         message.setSubject("Example HTML email with attachment");
-        message.setFrom("thymeleaf@example.com");
+        message.setFrom(mailProperties.getUsername());
         message.setTo(recipientEmail);
 
         // Create the HTML body using Thymeleaf
@@ -160,6 +165,7 @@ public class EmailService {
         message.setText(htmlContent, true /* isHtml */);
 
         // Add the attachment
+        // FIXME Chinese attachment names are not properly encoded
         final InputStreamSource attachmentSource = new ByteArrayResource(attachmentBytes);
         message.addAttachment(
             attachmentFileName, attachmentSource, attachmentContentType);
@@ -189,7 +195,7 @@ public class EmailService {
         final MimeMessageHelper message
             = new MimeMessageHelper(mimeMessage, true /* multipart */, "UTF-8");
         message.setSubject("Example HTML email with inline image");
-        message.setFrom("thymeleaf@example.com");
+        message.setFrom(mailProperties.getUsername());
         message.setTo(recipientEmail);
 
         // Create the HTML body using Thymeleaf
@@ -228,7 +234,7 @@ public class EmailService {
         final MimeMessageHelper message
                 = new MimeMessageHelper(mimeMessage, true /* multipart */, "UTF-8");
         message.setSubject("Example editable HTML email");
-        message.setFrom("thymeleaf@example.com");
+        message.setFrom(mailProperties.getUsername());
         message.setTo(recipientEmail);
 
         // Prepare the evaluation context
