@@ -1,3 +1,5 @@
+**Please switch to springboot-thymeleaf-springmail branch for the Spring Boot version.**
+
 Thymeleaf 3 examples: Spring Mail
 =================================
 
