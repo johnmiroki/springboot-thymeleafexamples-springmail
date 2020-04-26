@@ -1,28 +1,16 @@
-package thymeleafexamples.springmail.web;
+package thymeleafexamples.springmail.config;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring5.SpringTemplateEngine;
-import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring5.view.ThymeleafViewResolver;
-import org.thymeleaf.templatemode.TemplateMode;
 
 /**
  * Spring MVC and Thymeleaf configuration.
  */
-@Configuration
-@ComponentScan
-@EnableWebMvc
-public class SpringWebConfig extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+//@Configuration
+public class SpringWebConfig implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
 
@@ -42,14 +30,15 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 
     /*
      *  Dispatcher configuration for serving static resources
+     *  deprecated. provided by spring boot by default
      */
-    @Override
+/*    @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         super.addResourceHandlers(registry);
         registry.addResourceHandler("/images/**").addResourceLocations("/images/");
         registry.addResourceHandler("/css/**").addResourceLocations("/css/");
         registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-    }
+    }*/
 
     /*
      *  Message externalization/internationalization
@@ -63,21 +52,27 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
 
     /*
      * Multipart resolver (needed for uploading attachments from web form)
+     * deprecated. provided by spring boot by default
      */
+/*
     @Bean
     public MultipartResolver multipartResolver() {
         final CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setMaxUploadSize(10485760); // 10MBytes
         return multipartResolver;
     }
+*/
 
 
 
     /* **************************************************************** */
     /*  THYMELEAF-SPECIFIC ARTIFACTS                                    */
     /*  TemplateResolver <- TemplateEngine <- ViewResolver              */
+    /*  deprecated. provided by spring boot by default                  */
     /* **************************************************************** */
 
+
+/*
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
         // SpringResourceTemplateResolver automatically integrates with Spring's own
@@ -114,7 +109,7 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter implements Applicat
         final ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
-    }
+    }*/
 
 
 }

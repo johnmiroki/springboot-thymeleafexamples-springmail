@@ -1,4 +1,4 @@
-package thymeleafexamples.springmail.business;
+package thymeleafexamples.springmail.config;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -56,7 +56,9 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 
     /*
      * SPRING + JAVAMAIL: JavaMailSender instance, configured via .properties files.
+     * depreacated
      */
+/*
     @Bean
     public JavaMailSender mailSender() throws IOException {
 
@@ -77,6 +79,7 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
         return mailSender;
 
     }
+*/
 
 
     /*
